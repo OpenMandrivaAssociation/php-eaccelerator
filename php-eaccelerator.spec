@@ -1,12 +1,12 @@
 %define modname eaccelerator
 %define dirname %{modname}
 %define soname %{modname}.so
-%define inifile 99_%{modname}.ini
+%define inifile Z99_%{modname}.ini
 
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.5.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.sourceforge.net
