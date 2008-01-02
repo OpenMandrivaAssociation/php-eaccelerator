@@ -19,6 +19,7 @@ BuildRequires:	apache-devel >= 2.2.4
 BuildRequires:	dos2unix
 Conflicts:	php-afterburner php-apc %{name}-eloader
 Epoch:		2
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 eAccelerator is a further development of the mmcache PHP accelerator and
