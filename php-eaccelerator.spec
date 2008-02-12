@@ -6,14 +6,15 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.5.2
-Release:	%mkrel 3
+Release:	%mkrel 4
 Group:		Development/PHP
 License:	GPL
-URL:		http://eaccelerator.sourceforge.net
+URL:		http://eaccelerator.net/
 Source0:	http://prdownloads.sourceforge.net/eaccelerator/eaccelerator-%{version}.tar.bz2
 Source1:	eaccelerator.ini
-Source2:	eaccelerator_index.html
 Patch0:		eaccelerator-cache_file_location.diff
+Requires(post): rpm-helper
+Requires(postun): rpm-helper
 BuildRequires:	php-devel >= 3:5.2.2
 BuildRequires:	apache-devel >= 2.2.4
 BuildRequires:	dos2unix
@@ -30,6 +31,8 @@ eliminated.
 %package	admin
 Summary:	Web interface for controlling eaccelerator and encode php files
 Group:		System/Servers
+Requires(post): rpm-helper
+Requires(postun): rpm-helper
 Requires:	%{name} >= %{epoch}:%{version}
 Conflicts:	%{name}-eloader
 Epoch:		%{epoch}
@@ -44,7 +47,6 @@ script for encoding php files.
 %patch0 -p1 -b .cache_file_location
 
 cp %{SOURCE1} eaccelerator.ini
-cp %{SOURCE2} eaccelerator_index.html
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib|%{_libdir}|g" eaccelerator.ini
@@ -77,16 +79,14 @@ mv modules/*.so .
 install -d %{buildroot}%{_libdir}/php/extensions
 install -d %{buildroot}%{_sysconfdir}/php.d
 install -d %{buildroot}/var/www/php-eaccelerator
-install -d %{buildroot}/var/cache/httpd/php-eaccelerator
 install -d %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d
 
 install -m0755 %{soname} %{buildroot}%{_libdir}/php/extensions/
 
 install -m0644 eaccelerator.ini %{buildroot}%{_sysconfdir}/php.d/%{inifile}
 
-install -m0644 eaccelerator_index.html %{buildroot}/var/www/php-eaccelerator/index.html
 install -m0644 bugreport.php %{buildroot}/var/www/php-eaccelerator/
-install -m0644 control.php %{buildroot}/var/www/php-eaccelerator/
+install -m0644 control.php %{buildroot}/var/www/php-eaccelerator/index.php
 install -m0644 dasm.php %{buildroot}/var/www/php-eaccelerator/
 install -m0644 PHP_Highlight.php %{buildroot}/var/www/php-eaccelerator/
 
@@ -101,6 +101,10 @@ Alias /php-eaccelerator /var/www/php-eaccelerator
     ErrorDocument 403 "Access denied per %{_sysconfdir}/httpd/conf/webapps.d/php-eaccelerator.conf"
 </Directory>
 EOF
+
+# pre-populate the balanced tree, grep "^static char num2hex" eaccelerator.c + grep "^#define EACCELERATOR_HASH_LEVEL" eaccelerator.h
+install -d %{buildroot}/var/cache/httpd/php-eaccelerator/{0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f}/{0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f}
+find %{buildroot}/var/cache/httpd/php-eaccelerator -type d | sed -e "s|%{buildroot}||" | sed -e 's/^/%attr(0711,apache,root) %dir /' > %{name}.filelist
 
 %post
 %_post_webapp
@@ -117,12 +121,11 @@ EOF
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
-%files 
+%files -f %{name}.filelist
 %defattr(-,root,root)
 %doc AUTHORS COPYING ChangeLog NEWS README doc/*
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/php.d/%{inifile}
 %attr(0755,root,root) %{_libdir}/php/extensions/%{soname}
-%dir %attr(0777,apache,apache) /var/cache/httpd/php-eaccelerator
 
 %files admin
 %defattr(-,root,root)
