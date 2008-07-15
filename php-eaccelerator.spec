@@ -6,7 +6,7 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.5.2
-Release:	%mkrel 5
+Release:	%mkrel 6
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
@@ -20,7 +20,7 @@ BuildRequires:	apache-devel >= 2.2.4
 BuildRequires:	dos2unix
 Conflicts:	php-afterburner php-apc %{name}-eloader
 Epoch:		2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 eAccelerator is a further development of the mmcache PHP accelerator and
