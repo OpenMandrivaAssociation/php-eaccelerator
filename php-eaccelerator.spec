@@ -62,6 +62,10 @@ find -type f -exec dos2unix -U {} \;
 %serverbuild
 
 phpize
+
+# wtf?
+chmod 755 configure
+
 %configure2_5x \
     --with-libdir=%{_lib} \
     --cache-file=config.cache \
@@ -74,7 +78,7 @@ phpize
 mv modules/*.so .
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_libdir}/php/extensions
 install -d %{buildroot}%{_sysconfdir}/php.d
@@ -119,7 +123,7 @@ find %{buildroot}/var/cache/httpd/php-eaccelerator -type d | sed -e "s|%{buildro
 %_postun_webapp
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files -f %{name}.filelist
 %defattr(-,root,root)
