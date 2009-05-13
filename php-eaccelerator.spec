@@ -5,12 +5,14 @@
 
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
-Version:	0.9.5.3
-Release:	%mkrel 9
+Version:	0.9.6
+Release:	%mkrel 0.355.1
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
-Source0:	http://prdownloads.sourceforge.net/eaccelerator/eaccelerator-%{version}.tar.bz2
+# svn --username anonymous --password anonymous co http://dev.eaccelerator.net/eaccelerator/trunk eaccelerator
+#Source0:	http://prdownloads.sourceforge.net/eaccelerator/eaccelerator-%{version}.tar.bz2
+Source0:	eaccelerator-%{version}.tar.gz
 Source1:	eaccelerator.ini
 Patch0:		eaccelerator-cache_file_location.diff
 Requires(post): rpm-helper
