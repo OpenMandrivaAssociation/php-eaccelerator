@@ -6,7 +6,7 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.6
-Release:	%mkrel 0.356.2
+Release:	%mkrel 0.358.1
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
@@ -71,7 +71,6 @@ chmod 755 configure
 %configure2_5x \
     --with-libdir=%{_lib} \
     --cache-file=config.cache \
-    --without-eaccelerator-shared-memory \
     --with-eaccelerator-info \
     --with-eaccelerator-disassembler \
     --with-%{modname}=shared,%{_prefix}
