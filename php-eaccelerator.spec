@@ -6,7 +6,7 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.6
-Release:	%mkrel 0.358.6
+Release:	%mkrel 0.358.7
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
@@ -19,9 +19,12 @@ Requires(post): rpm-helper
 Requires(postun): rpm-helper
 BuildRequires:	php-devel >= 3:5.2.2
 BuildRequires:	apache-devel >= 2.2.4
-BuildRequires:	dos2unix
 Conflicts:	php-afterburner php-apc %{name}-eloader
 Epoch:		2
+%if %mdkversion < 201010
+Requires(post):   rpm-helper
+Requires(postun):   rpm-helper
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 ExcludeArch:	%mips %arm
 
@@ -58,9 +61,6 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" eaccelerator.ini
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
-# strip away annoying ^M
-find -type f -exec dos2unix -U {} \;
-
 %build
 %serverbuild
 
@@ -85,7 +85,6 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_libdir}/php/extensions
 install -d %{buildroot}%{_sysconfdir}/php.d
 install -d %{buildroot}/var/www/php-eaccelerator
-install -d %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d
 
 install -m0755 %{soname} %{buildroot}%{_libdir}/php/extensions/
 
@@ -97,14 +96,15 @@ install -m0644 dasm.php %{buildroot}/var/www/php-eaccelerator/
 install -m0644 PHP_Highlight.php %{buildroot}/var/www/php-eaccelerator/
 
 # fix access config files
-cat > %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d/php-eaccelerator.conf << EOF
+install -d -m 755 %{buildroot}%{webappconfdir}
+cat > %{buildroot}%{webappconfdir}/php-eaccelerator.conf << EOF
 Alias /php-eaccelerator /var/www/php-eaccelerator
 
 <Directory /var/www/php-eaccelerator>
     Order deny,allow
     Deny from all
     Allow from 127.0.0.1
-    ErrorDocument 403 "Access denied per %{_sysconfdir}/httpd/conf/webapps.d/php-eaccelerator.conf"
+    ErrorDocument 403 "Access denied per %{webappconfdir}/php-eaccelerator.conf"
 </Directory>
 EOF
 
@@ -113,10 +113,14 @@ install -d %{buildroot}/var/cache/httpd/php-eaccelerator/{0,1,2,3,4,5,6,7,8,9,a,
 find %{buildroot}/var/cache/httpd/php-eaccelerator -type d | sed -e "s|%{buildroot}||" | sed -e 's/^/%attr(0711,apache,root) %dir /' > %{name}.filelist
 
 %post
+%if %mdkversion < 201010
 %_post_webapp
+%endif
 
 %postun
+%if %mdkversion < 201010
 %_postun_webapp
+%endif
 
 %post admin
 %_post_webapp
@@ -135,6 +139,6 @@ rm -rf %{buildroot}
 
 %files admin
 %defattr(-,root,root)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/conf/webapps.d/php-eaccelerator.conf
+%config(noreplace) %{webappconfdir}/php-eaccelerator.conf
 %dir /var/www/php-eaccelerator
 /var/www/php-eaccelerator/*
