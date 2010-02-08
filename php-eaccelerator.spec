@@ -6,7 +6,7 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.6
-Release:	%mkrel 0.358.7
+Release:	%mkrel 0.358.8
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
@@ -21,10 +21,6 @@ BuildRequires:	php-devel >= 3:5.2.2
 BuildRequires:	apache-devel >= 2.2.4
 Conflicts:	php-afterburner php-apc %{name}-eloader
 Epoch:		2
-%if %mdkversion < 201010
-Requires(post):   rpm-helper
-Requires(postun):   rpm-helper
-%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 ExcludeArch:	%mips %arm
 
@@ -37,8 +33,10 @@ eliminated.
 %package	admin
 Summary:	Web interface for controlling eaccelerator and encode php files
 Group:		System/Servers
-Requires(post): rpm-helper
-Requires(postun): rpm-helper
+%if %mdkversion < 201010
+Requires(post):   rpm-helper
+Requires(postun):   rpm-helper
+%endif
 Requires:	%{name} >= %{epoch}:%{version}
 Conflicts:	%{name}-eloader
 Epoch:		%{epoch}
