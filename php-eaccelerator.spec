@@ -5,7 +5,7 @@
 
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
-Version:	0.9.6
+Version:	0.9.6.1
 Release:	%mkrel 1
 Group:		Development/PHP
 License:	GPL
