@@ -1,0 +1,24 @@
+diff -Naurp eaccelerator-0.9.6/eaccelerator.c eaccelerator-0.9.6.oden/eaccelerator.c
+--- eaccelerator-0.9.6/eaccelerator.c	2010-02-04 19:10:11.000000000 +0100
++++ eaccelerator-0.9.6.oden/eaccelerator.c	2010-03-05 13:02:30.000000000 +0100
+@@ -1513,7 +1513,7 @@ ZEND_INI_ENTRY1("eaccelerator.shm_only",
+ #ifdef WITH_EACCELERATOR_INFO
+ STD_PHP_INI_ENTRY("eaccelerator.allowed_admin_path",       "", PHP_INI_SYSTEM, OnUpdateString, allowed_admin_path, zend_eaccelerator_globals, eaccelerator_globals)
+ #endif
+-STD_PHP_INI_ENTRY("eaccelerator.cache_dir",      "/tmp/eaccelerator", PHP_INI_SYSTEM, OnUpdateString, cache_dir, zend_eaccelerator_globals, eaccelerator_globals)
++STD_PHP_INI_ENTRY("eaccelerator.cache_dir",      "/var/cache/httpd/php-eaccelerator", PHP_INI_SYSTEM, OnUpdateString, cache_dir, zend_eaccelerator_globals, eaccelerator_globals)
+ PHP_INI_ENTRY("eaccelerator.filter",             "",  PHP_INI_ALL, eaccelerator_filter)
+ PHP_INI_END()
+ 
+diff -Naurp eaccelerator-0.9.6/eaccelerator.h eaccelerator-0.9.6.oden/eaccelerator.h
+--- eaccelerator-0.9.6/eaccelerator.h	2010-02-04 19:10:11.000000000 +0100
++++ eaccelerator-0.9.6.oden/eaccelerator.h	2010-03-05 13:02:30.000000000 +0100
+@@ -67,7 +67,7 @@
+ #  include <signal.h>
+ #endif
+ 
+-#define EACCELERATOR_MM_FILE "/tmp/eaccelerator"
++#define EACCELERATOR_MM_FILE "/var/cache/httpd/php-eaccelerator"
+ 
+ #ifdef EACCELERATOR_WITHOUT_FILE_LOCKING
+ #  ifndef LOCK_SH
