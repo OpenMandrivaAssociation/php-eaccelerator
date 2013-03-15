@@ -6,7 +6,7 @@
 Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Version:	0.9.6.1git20120725
-Release:	11
+Release:	12
 Group:		Development/PHP
 License:	GPL
 URL:		http://eaccelerator.net/
@@ -20,7 +20,6 @@ BuildRequires:	php-devel >= 3:5.2.2
 BuildRequires:	apache-devel >= 2.2.4
 Conflicts:	php-afterburner php-apc %{name}-eloader
 Epoch:		2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 ExcludeArch:	%mips %arm
 
 %description
@@ -32,10 +31,6 @@ eliminated.
 %package	admin
 Summary:	Web interface for controlling eaccelerator and encode php files
 Group:		System/Servers
-%if %mdkversion < 201010
-Requires(post):   rpm-helper
-Requires(postun):   rpm-helper
-%endif
 Requires:	%{name} >= %{epoch}:%{version}
 Conflicts:	%{name}-eloader
 Epoch:		%{epoch}
@@ -77,8 +72,6 @@ chmod 755 configure
 mv modules/*.so .
 
 %install
-rm -rf %{buildroot}
-
 install -d %{buildroot}%{_libdir}/php/extensions
 install -d %{buildroot}%{_sysconfdir}/php.d
 install -d %{buildroot}/var/www/php-eaccelerator
@@ -98,9 +91,7 @@ cat > %{buildroot}%{webappconfdir}/php-eaccelerator.conf << EOF
 Alias /php-eaccelerator /var/www/php-eaccelerator
 
 <Directory /var/www/php-eaccelerator>
-    Order deny,allow
-    Deny from all
-    Allow from 127.0.0.1
+    Require host 127.0.0.1
     ErrorDocument 403 "Access denied per %{webappconfdir}/php-eaccelerator.conf"
 </Directory>
 EOF
@@ -109,24 +100,6 @@ EOF
 install -d %{buildroot}/var/cache/httpd/php-eaccelerator/{0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f}/{0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f}
 find %{buildroot}/var/cache/httpd/php-eaccelerator -type d | sed -e "s|%{buildroot}||" | sed -e 's/^/%attr(0711,apache,root) %dir /' > %{name}.filelist
 
-%post
-%if %mdkversion < 201010
-%_post_webapp
-%endif
-
-%postun
-%if %mdkversion < 201010
-%_postun_webapp
-%endif
-
-%post admin
-%_post_webapp
-
-%postun admin
-%_postun_webapp
-
-%clean
-rm -rf %{buildroot}
 
 %files -f %{name}.filelist
 %defattr(-,root,root)
