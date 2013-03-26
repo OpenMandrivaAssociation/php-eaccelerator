@@ -13,6 +13,7 @@ URL:		http://eaccelerator.net/
 # svn --username anonymous --password anonymous co http://dev.eaccelerator.net/eaccelerator/trunk eaccelerator
 Source0:	http://prdownloads.sourceforge.net/eaccelerator/eaccelerator-%{version}.tar.gz
 Source1:	eaccelerator.ini
+Source2:	php-eaccelerator.rpmlintrc
 Patch0:		eaccelerator-cache_file_location.diff
 Requires(post): rpm-helper
 Requires(postun): rpm-helper
