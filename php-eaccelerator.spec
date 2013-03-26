@@ -87,13 +87,13 @@ install -m0644 dasm.php %{buildroot}/var/www/php-eaccelerator/
 install -m0644 PHP_Highlight.php %{buildroot}/var/www/php-eaccelerator/
 
 # fix access config files
-install -d -m 755 %{buildroot}%{webappconfdir}
-cat > %{buildroot}%{webappconfdir}/php-eaccelerator.conf << EOF
+install -d -m 755 %{buildroot}%{_webappconfdir}
+cat > %{buildroot}%{_webappconfdir}/php-eaccelerator.conf << EOF
 Alias /php-eaccelerator /var/www/php-eaccelerator
 
 <Directory /var/www/php-eaccelerator>
     Require host 127.0.0.1
-    ErrorDocument 403 "Access denied per %{webappconfdir}/php-eaccelerator.conf"
+    ErrorDocument 403 "Access denied per %{_webappconfdir}/php-eaccelerator.conf"
 </Directory>
 EOF
 
@@ -110,7 +110,7 @@ find %{buildroot}/var/cache/httpd/php-eaccelerator -type d | sed -e "s|%{buildro
 
 %files admin
 %defattr(-,root,root)
-%config(noreplace) %{webappconfdir}/php-eaccelerator.conf
+%config(noreplace) %{_webappconfdir}/php-eaccelerator.conf
 %dir /var/www/php-eaccelerator
 /var/www/php-eaccelerator/*
 
