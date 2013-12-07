@@ -6,7 +6,7 @@ Summary:	PHP accelerator optimizer
 Name:		php-eaccelerator
 Epoch:		2
 Version:	0.9.6.1git20120725
-Release:	15
+Release:	16
 Group:		Development/PHP
 License:	GPLv2
 Url:		http://eaccelerator.net/
