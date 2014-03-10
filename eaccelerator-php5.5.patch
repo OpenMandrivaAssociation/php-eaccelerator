@@ -1,0 +1,20 @@
+--- eaccelerator-0.9.6.1git20120725/eaccelerator.c.orig	2014-03-10 16:20:22.626512330 +0000
++++ eaccelerator-0.9.6.1git20120725/eaccelerator.c	2014-03-10 16:20:32.336512641 +0000
+@@ -63,7 +63,6 @@
+ 
+ #include "php.h"
+ #include "php_ini.h"
+-#include "php_logos.h"
+ #include "main/fopen_wrappers.h"
+ #include "ext/standard/info.h"
+ #include "ext/standard/php_incomplete_class.h"
+@@ -2284,9 +2283,6 @@
+         }
+     }
+ 
+-    php_register_info_logo(EACCELERATOR_VERSION_GUID, "text/plain", (unsigned char*)EACCELERATOR_VERSION_STRING, sizeof(EACCELERATOR_VERSION_STRING));
+-    php_register_info_logo(EACCELERATOR_LOGO_GUID,    "image/gif",  (unsigned char*)eaccelerator_logo, sizeof(eaccelerator_logo));
+-
+     return SUCCESS;
+ }
+ 

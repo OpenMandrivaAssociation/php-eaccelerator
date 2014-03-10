@@ -15,6 +15,7 @@ Source0:	http://prdownloads.sourceforge.net/eaccelerator/eaccelerator-%{version}
 Source1:	eaccelerator.ini
 Source2:	php-eaccelerator.rpmlintrc
 Patch0:		eaccelerator-cache_file_location.diff
+Patch1:		eaccelerator-php5.5.patch
 ExcludeArch:	%mips %arm
 BuildRequires:	apache-devel >= 2.2.4
 BuildRequires:	php-devel >= 3:5.2.2
